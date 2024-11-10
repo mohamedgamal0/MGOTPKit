@@ -27,15 +27,15 @@ Here’s how **MGOTPKit** will look in your app!
 
 ## Installation 📦
 
-You can install **MGOTPKit** via [Swift Package Manager](https://developer.apple.com/documentation/xcode/adding-package-dependencies-to-your-app).
+You can easily install **MGOTPKit** into your iOS project using [Swift Package Manager](https://developer.apple.com/documentation/xcode/adding-package-dependencies-to-your-app).
 
 ### Swift Package Manager
 
-1. In Xcode, go to `File` > `Swift Packages` > `Add Package Dependency...`
-2. Enter the repository URL:
+1. Open your project in Xcode.
+2. Navigate to `File` > `Swift Packages` > `Add Package Dependency...`.
+3. Paste the repository URL:
    ```bash
-   https://github.com/mohamedgamal0/MGOTPKit
-
+   https://github.com/mohamedgamal0/MGOTPKit.git
 
 - **Numbered Steps**: Provide a clear, step-by-step guide for installation.
 - **Code Block**: Use triple backticks (` ``` `) to format code or URLs.
@@ -45,8 +45,6 @@ You can install **MGOTPKit** via [Swift Package Manager](https://developer.apple
 ### 5. **Usage Guide**
 This is the main section of the README where you explain how to use the package. Include code examples for both **SwiftUI** and **UIKit**.
 
-#### SwiftUI Example
-```markdown
 ### SwiftUI Example 📱
 
 In **SwiftUI**, you can integrate the OTP component like this:
@@ -86,7 +84,7 @@ struct ContentView: View {
         .padding()
     }
 }
-
+```
 ### UIKit Example 📱
 
 For **UIKit** users, the process is equally easy:
@@ -128,6 +126,7 @@ class ViewController: UIViewController {
         ])
     }
 }
+```
 
 ## Contributing 🧑‍💻
 
