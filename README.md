@@ -127,10 +127,12 @@ class ViewController: UIViewController {
     }
 }
 ```
+### UIKit  Builder Example 📱
+
+For **UIKit** users could also use the builder pattern , the process is equally easy :
+
+
 ```
-
- For **UIKit** users could also use the builder pattern , the process is equally easy :
-
 import UIKit
 import MGOTPKit
 class ViewController: UIViewController {
