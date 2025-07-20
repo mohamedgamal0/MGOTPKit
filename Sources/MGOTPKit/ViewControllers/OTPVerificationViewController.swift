@@ -7,40 +7,27 @@
 
 import SwiftUI
 import UIKit
-
 // UIKit wrapper for OTPVerificationView
-public class OTPVerificationViewController: UIViewController {
-    private var otpVerificationView: OTPVerificationView
 
-    public init(digitCount: Int = DefaultConfiguration.digitCount,
-                spacing: CGFloat = DefaultConfiguration.spacing,
-                borderColor: Color = DefaultConfiguration.borderColor,
-                borderWidth: CGFloat = DefaultConfiguration.borderWidth,
-                textColor: Color = DefaultConfiguration.textColor,
-                font: Font = DefaultConfiguration.font,
-                backgroundColor: Color = DefaultConfiguration.backgroundColor,
-                cornerRadius: CGFloat = DefaultConfiguration.cornerRadius,
-                fieldSize: CGSize = DefaultConfiguration.fieldSize,
-                animationDuration: Double = DefaultConfiguration.animationDuration,
-                cursorColor: Color = DefaultConfiguration.cursorColor,
-                shapeType: ShapeType = DefaultConfiguration.shapeType,
-                onCompletion: ((String) -> Void)? = nil) {
-        
-        self.otpVerificationView = OTPVerificationView(
-            digitCount: digitCount,
-            spacing: spacing,
-            borderColor: borderColor,
-            borderWidth: borderWidth,
-            textColor: textColor,
-            font: font,
-            backgroundColor: backgroundColor,
-            cornerRadius: cornerRadius,
-            fieldSize: fieldSize,
-            animationDuration: animationDuration,
-            cursorColor: cursorColor,
-            shapeType: shapeType,
-            onCompletion: onCompletion
+public class OTPVerificationViewController: UIViewController {
+    private let otpVerificationView: AnyOTPVerificationView
+    public init(configuration: OTPConfiguration) {
+        let view = OTPVerificationView(
+            digitCount: configuration.digitCount,
+            spacing: configuration.spacing,
+            borderColor: configuration.borderColor,
+            borderWidth: configuration.borderWidth,
+            textColor: configuration.textColor,
+            font: configuration.font,
+            backgroundColor: configuration.backgroundColor,
+            cornerRadius: configuration.cornerRadius,
+            fieldSize: configuration.fieldSize,
+            animationDuration: configuration.animationDuration,
+            cursorColor: configuration.cursorColor,
+            shapeType: configuration.shapeType,
+            onCompletion: configuration.onCompletion
         )
+        self.otpVerificationView = AnyOTPVerificationView(view)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -55,6 +42,8 @@ public class OTPVerificationViewController: UIViewController {
         addChild(hostingController)
         view.addSubview(hostingController.view)
         hostingController.view.frame = view.bounds
+        hostingController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         hostingController.didMove(toParent: self)
     }
 }
+

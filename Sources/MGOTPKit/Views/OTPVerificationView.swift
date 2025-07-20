@@ -8,11 +8,10 @@
 import SwiftUI
 
 
-public struct OTPVerificationView: View {
+public struct OTPVerificationView: OTPVerificationViewProtocol {
     @State private var otpDigits: [String]
     @FocusState private var focusedField: Int?
     
-    // Customization properties
     public var digitCount: Int
     public var spacing: CGFloat
     public var borderColor: Color
@@ -26,7 +25,7 @@ public struct OTPVerificationView: View {
     public var cursorColor: Color
     public var shapeType: ShapeType
     public var onCompletion: ((String) -> Void)?
-
+    
     public init(digitCount: Int = DefaultConfiguration.digitCount,
                 spacing: CGFloat = DefaultConfiguration.spacing,
                 borderColor: Color = DefaultConfiguration.borderColor,
@@ -56,7 +55,7 @@ public struct OTPVerificationView: View {
         self.onCompletion = onCompletion
         _otpDigits = State(initialValue: Array(repeating: "", count: digitCount))
     }
-
+    
     @MainActor public var body: some View {
         HStack(spacing: spacing) {
             ForEach(0..<digitCount, id: \.self) { index in
@@ -78,7 +77,7 @@ public struct OTPVerificationView: View {
             focusedField = 0
         }
     }
-
+    
     private func handleInputChange(_ newValue: String, at index: Int) {
         otpDigits[index] = String(newValue.prefix(1))
         
@@ -93,3 +92,123 @@ public struct OTPVerificationView: View {
         }
     }
 }
+
+public protocol OTPVerificationViewProtocol: View {
+    init(digitCount: Int,
+         spacing: CGFloat,
+         borderColor: Color,
+         borderWidth: CGFloat,
+         textColor: Color,
+         font: Font,
+         backgroundColor: Color,
+         cornerRadius: CGFloat,
+         fieldSize: CGSize,
+         animationDuration: Double,
+         cursorColor: Color,
+         shapeType: ShapeType,
+         onCompletion: ((String) -> Void)?)
+}
+
+public struct AnyOTPVerificationView: View {
+    private let _body: AnyView
+    
+    public init<V: OTPVerificationViewProtocol>(_ view: V) {
+        self._body = AnyView(view)
+    }
+    
+    public var body: some View {
+        _body
+    }
+}
+
+//MARK: Builder
+public class OTPVerificationViewControllerBuilder {
+    private var config: OTPConfiguration
+    
+    public init() {
+        self.config = OTPConfiguration()
+    }
+    
+    @discardableResult
+    public func setDigitCount(_ digitCount: Int) -> Self {
+        config.digitCount = digitCount
+        return self
+    }
+    
+    @discardableResult
+    public func setSpacing(_ spacing: CGFloat) -> Self {
+        config.spacing = spacing
+        return self
+    }
+    
+    @discardableResult
+    public func setBorderColor(_ borderColor: Color) -> Self {
+        config.borderColor = borderColor
+        return self
+    }
+    
+    @discardableResult
+    public func setBorderWidth(_ borderWidth: CGFloat) -> Self {
+        config.borderWidth = borderWidth
+        return self
+    }
+    
+    @discardableResult
+    public func setTextColor(_ textColor: Color) -> Self {
+        config.textColor = textColor
+        return self
+    }
+    
+    @discardableResult
+    public func setFont(_ font: Font) -> Self {
+        config.font = font
+        return self
+    }
+    
+    @discardableResult
+    public func setBackgroundColor(_ backgroundColor: Color) -> Self {
+        config.backgroundColor = backgroundColor
+        return self
+    }
+    
+    @discardableResult
+    public func setCornerRadius(_ cornerRadius: CGFloat) -> Self {
+        config.cornerRadius = cornerRadius
+        return self
+    }
+    
+    @discardableResult
+    public func setFieldSize(_ fieldSize: CGSize) -> Self {
+        config.fieldSize = fieldSize
+        return self
+    }
+    
+    @discardableResult
+    public func setAnimationDuration(_ animationDuration: Double) -> Self {
+        config.animationDuration = animationDuration
+        return self
+    }
+    
+    @discardableResult
+    public func setCursorColor(_ cursorColor: Color) -> Self {
+        config.cursorColor = cursorColor
+        return self
+    }
+    
+    @discardableResult
+    public func setShapeType(_ shapeType: ShapeType) -> Self {
+        config.shapeType = shapeType
+        return self
+    }
+    
+    @discardableResult
+    public func setOnCompletion(_ handler: ((String) -> Void)?) -> Self {
+        config.onCompletion = handler
+        return self
+    }
+    
+    @MainActor public func build() -> OTPVerificationViewController {
+        OTPVerificationViewController(configuration: config)
+    }
+}
+    
