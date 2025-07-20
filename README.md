@@ -127,6 +127,57 @@ class ViewController: UIViewController {
     }
 }
 ```
+```
+
+ For **UIKit** users could also use the builder pattern , the process is equally easy :
+
+import UIKit
+import MGOTPKit
+class ViewController: UIViewController {
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+        
+        embedOTPViewController()
+        
+    }
+    
+    private func embedOTPViewController() {
+        let otpController = OTPVerificationViewControllerBuilder()
+            .setDigitCount(3)
+            .setSpacing(10)
+            .setBorderColor(.blue)
+            .setBorderWidth(2)
+            .setTextColor(.black)
+            .setFont(.system(size: 18, weight: .bold))
+            .setBackgroundColor(.white)
+            .setCornerRadius(10)
+            .setFieldSize(CGSize(width: 50, height: 50))
+            .setAnimationDuration(0.3)
+            .setCursorColor(.blue)
+            .setShapeType(.roundedRectangle(cornerRadius: 10))
+            .setOnCompletion { [weak self] otp in
+                print("OTP Entered: \(otp)")
+                self?.showOTPAlert(otp: otp)
+            }
+            .build()
+        
+        addChild(otpController)
+        view.addSubview(otpController.view)
+        
+        otpController.view.frame = CGRect(
+            x: 20,
+            y: view.bounds.height / 2 - 50,
+            width: view.bounds.width - 40,
+            height: 60
+        )
+        otpController.view.autoresizingMask = [.flexibleWidth, .flexibleTopMargin, .flexibleBottomMargin]
+        otpController.didMove(toParent: self)
+    }
+}
+```
 
 ## Contributing 🧑‍💻
 
