@@ -11,7 +11,8 @@ import SwiftUI
 public struct OTPVerificationView: OTPVerificationViewProtocol {
     @State private var otpDigits: [String]
     @FocusState private var focusedField: Int?
-    
+    public var onChange: ((String) -> Void)?
+
     public var digitCount: Int
     public var spacing: CGFloat
     public var borderColor: Color
@@ -38,7 +39,8 @@ public struct OTPVerificationView: OTPVerificationViewProtocol {
                 animationDuration: Double = DefaultConfiguration.animationDuration,
                 cursorColor: Color = DefaultConfiguration.cursorColor,
                 shapeType: ShapeType = DefaultConfiguration.shapeType,
-                onCompletion: ((String) -> Void)? = nil) {
+                onCompletion: ((String) -> Void)? = nil,
+                onChange: ((String) -> Void)? = nil) {
         
         self.digitCount = digitCount
         self.spacing = spacing
@@ -53,6 +55,7 @@ public struct OTPVerificationView: OTPVerificationViewProtocol {
         self.cursorColor = cursorColor
         self.shapeType = shapeType
         self.onCompletion = onCompletion
+        self.onChange = onChange
         _otpDigits = State(initialValue: Array(repeating: "", count: digitCount))
     }
     
@@ -87,8 +90,10 @@ public struct OTPVerificationView: OTPVerificationViewProtocol {
             focusedField = index - 1
         }
         
-        if otpDigits.joined().count == digitCount {
-            onCompletion?(otpDigits.joined())
+        let currentOTP = otpDigits.joined()
+        onChange?(currentOTP)
+        if currentOTP.count == digitCount {
+            onCompletion?(currentOTP)
         }
     }
 }
@@ -106,7 +111,8 @@ public protocol OTPVerificationViewProtocol: View {
          animationDuration: Double,
          cursorColor: Color,
          shapeType: ShapeType,
-         onCompletion: ((String) -> Void)?)
+         onCompletion: ((String) -> Void)?,
+         onChange: ((String) -> Void)?)
 }
 
 public struct AnyOTPVerificationView: View {
@@ -124,7 +130,8 @@ public struct AnyOTPVerificationView: View {
 //MARK: Builder
 public class OTPVerificationViewControllerBuilder {
     private var config: OTPConfiguration
-    
+    private var onChange: ((String) -> Void)? = nil
+
     public init() {
         self.config = OTPConfiguration()
     }
@@ -207,8 +214,15 @@ public class OTPVerificationViewControllerBuilder {
         return self
     }
     
+    @discardableResult
+    public func setOnChange(_ handler: ((String) -> Void)?) -> Self {
+        self.onChange = handler
+        return self
+    }
+    
     @MainActor public func build() -> OTPVerificationViewController {
-        OTPVerificationViewController(configuration: config)
+        config.onChange = self.onChange
+        return OTPVerificationViewController(configuration: config)
     }
 }
     

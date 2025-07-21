@@ -38,6 +38,7 @@ public struct OTPConfiguration {
     public var cursorColor: Color
     public var shapeType: ShapeType
     public var onCompletion: ((String) -> Void)?
+    public var onChange: ((String) -> Void)?
 
     public init(
         digitCount: Int = DefaultConfiguration.digitCount,
@@ -52,7 +53,8 @@ public struct OTPConfiguration {
         animationDuration: Double = DefaultConfiguration.animationDuration,
         cursorColor: Color = DefaultConfiguration.cursorColor,
         shapeType: ShapeType = DefaultConfiguration.shapeType,
-        onCompletion: ((String) -> Void)? = nil
+        onCompletion: ((String) -> Void)? = nil,
+        onChange: ((String) -> Void)? = nil
     ) {
         self.digitCount = digitCount
         self.spacing = spacing
@@ -67,5 +69,6 @@ public struct OTPConfiguration {
         self.cursorColor = cursorColor
         self.shapeType = shapeType
         self.onCompletion = onCompletion
+        self.onChange = onChange
     }
 }

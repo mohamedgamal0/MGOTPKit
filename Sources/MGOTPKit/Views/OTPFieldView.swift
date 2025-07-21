@@ -21,7 +21,9 @@ struct OTPFieldView: View {
     var font: Font
     var cursorColor: Color
     var onChange: (String, Int) -> Void
-    
+
+    @State private var internalText: String = ""
+
     var body: some View {
         ZStack {
             shapeType.shape(with: cornerRadius)
@@ -32,7 +34,7 @@ struct OTPFieldView: View {
                         .stroke(borderColor, lineWidth: borderWidth)
                 )
 
-            TextField("", text: $otpDigits[index])
+            TextField("", text: $internalText)
                 .focused(focusedField, equals: index)
                 .multilineTextAlignment(.center)
                 .foregroundColor(textColor)
@@ -40,10 +42,24 @@ struct OTPFieldView: View {
                 .tint(cursorColor)
                 .frame(width: fieldSize.width, height: fieldSize.height)
                 .keyboardType(.numberPad)
-                .onChange(of: otpDigits[index]) { newValue in
-                    onChange(newValue, index)
+                .onChange(of: internalText) { newValue in
+                    let digit = newValue.last.map { String($0) } ?? ""
+                    otpDigits[index] = digit
+                    onChange(digit, index)
+                    // Reset field to single character max
+                    internalText = digit
                 }
                 .background(Color.clear)
+                .onAppear {
+                    updateInternalText()
+                }
+                .onChange(of: otpDigits[index]) { _ in
+                    updateInternalText()
+                }
         }
+    }
+
+    private func updateInternalText() {
+        internalText = otpDigits[index].isEmpty ? "-" : otpDigits[index]
     }
 }
