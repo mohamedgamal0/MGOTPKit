@@ -43,6 +43,7 @@ public class OTPVerificationViewController: UIViewController {
         addChild(hostingController)
         view.addSubview(hostingController.view)
         hostingController.view.frame = view.bounds
+        hostingController.view.semanticContentAttribute = .forceLeftToRight
         hostingController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         hostingController.didMove(toParent: self)
     }
