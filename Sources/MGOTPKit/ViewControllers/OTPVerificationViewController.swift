@@ -39,11 +39,10 @@ public class OTPVerificationViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        let hostingController = UIHostingController(rootView: otpVerificationView)
+        let hostingController = UIHostingController(rootView: otpVerificationView .environment(\.layoutDirection, .leftToRight))
         addChild(hostingController)
         view.addSubview(hostingController.view)
         hostingController.view.frame = view.bounds
-        hostingController.view.semanticContentAttribute = .forceLeftToRight
         hostingController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         hostingController.didMove(toParent: self)
     }
