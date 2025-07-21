@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-/// OTP field view to represent each digit input field.
 struct OTPFieldView: View {
     var index: Int
     @Binding var otpDigits: [String]
@@ -21,7 +20,7 @@ struct OTPFieldView: View {
     var font: Font
     var cursorColor: Color
     var onChange: (String, Int) -> Void
-    
+
     var body: some View {
         ZStack {
             shapeType.shape(with: cornerRadius)
@@ -32,6 +31,12 @@ struct OTPFieldView: View {
                         .stroke(borderColor, lineWidth: borderWidth)
                 )
 
+            if otpDigits[index].isEmpty {
+                Text("-")
+                    .foregroundColor(.gray)
+                    .font(font)
+            }
+
             TextField("", text: $otpDigits[index])
                 .focused(focusedField, equals: index)
                 .multilineTextAlignment(.center)
@@ -41,7 +46,9 @@ struct OTPFieldView: View {
                 .frame(width: fieldSize.width, height: fieldSize.height)
                 .keyboardType(.numberPad)
                 .onChange(of: otpDigits[index]) { newValue in
-                    onChange(newValue, index)
+                    let digit = newValue.last.map { String($0) } ?? ""
+                    otpDigits[index] = digit
+                    onChange(digit, index)
                 }
                 .background(Color.clear)
         }

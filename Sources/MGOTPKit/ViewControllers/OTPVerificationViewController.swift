@@ -25,7 +25,8 @@ public class OTPVerificationViewController: UIViewController {
             animationDuration: configuration.animationDuration,
             cursorColor: configuration.cursorColor,
             shapeType: configuration.shapeType,
-            onCompletion: configuration.onCompletion
+            onCompletion: configuration.onCompletion,
+            onChange: configuration.onChange
         )
         self.otpVerificationView = AnyOTPVerificationView(view)
         super.init(nibName: nil, bundle: nil)
