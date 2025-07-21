@@ -129,100 +129,81 @@ public struct AnyOTPVerificationView: View {
 
 //MARK: Builder
 public class OTPVerificationViewControllerBuilder {
-    private var config: OTPConfiguration
-    private var onChange: ((String) -> Void)? = nil
+    private var config = OTPConfiguration()
 
-    public init() {
-        self.config = OTPConfiguration()
-    }
-    
-    @discardableResult
-    public func setDigitCount(_ digitCount: Int) -> Self {
-        config.digitCount = digitCount
+    public init() {}
+
+    @discardableResult public func setDigitCount(_ value: Int) -> Self {
+        config.digitCount = value
         return self
     }
-    
-    @discardableResult
-    public func setSpacing(_ spacing: CGFloat) -> Self {
-        config.spacing = spacing
+
+    @discardableResult public func setSpacing(_ value: CGFloat) -> Self {
+        config.spacing = value
         return self
     }
-    
-    @discardableResult
-    public func setBorderColor(_ borderColor: Color) -> Self {
-        config.borderColor = borderColor
+
+    @discardableResult public func setBorderColor(_ value: Color) -> Self {
+        config.borderColor = value
         return self
     }
-    
-    @discardableResult
-    public func setBorderWidth(_ borderWidth: CGFloat) -> Self {
-        config.borderWidth = borderWidth
+
+    @discardableResult public func setBorderWidth(_ value: CGFloat) -> Self {
+        config.borderWidth = value
         return self
     }
-    
-    @discardableResult
-    public func setTextColor(_ textColor: Color) -> Self {
-        config.textColor = textColor
+
+    @discardableResult public func setTextColor(_ value: Color) -> Self {
+        config.textColor = value
         return self
     }
-    
-    @discardableResult
-    public func setFont(_ font: Font) -> Self {
-        config.font = font
+
+    @discardableResult public func setFont(_ value: Font) -> Self {
+        config.font = value
         return self
     }
-    
-    @discardableResult
-    public func setBackgroundColor(_ backgroundColor: Color) -> Self {
-        config.backgroundColor = backgroundColor
+
+    @discardableResult public func setBackgroundColor(_ value: Color) -> Self {
+        config.backgroundColor = value
         return self
     }
-    
-    @discardableResult
-    public func setCornerRadius(_ cornerRadius: CGFloat) -> Self {
-        config.cornerRadius = cornerRadius
+
+    @discardableResult public func setCornerRadius(_ value: CGFloat) -> Self {
+        config.cornerRadius = value
         return self
     }
-    
-    @discardableResult
-    public func setFieldSize(_ fieldSize: CGSize) -> Self {
-        config.fieldSize = fieldSize
+
+    @discardableResult public func setFieldSize(_ value: CGSize) -> Self {
+        config.fieldSize = value
         return self
     }
-    
-    @discardableResult
-    public func setAnimationDuration(_ animationDuration: Double) -> Self {
-        config.animationDuration = animationDuration
+
+    @discardableResult public func setAnimationDuration(_ value: Double) -> Self {
+        config.animationDuration = value
         return self
     }
-    
-    @discardableResult
-    public func setCursorColor(_ cursorColor: Color) -> Self {
-        config.cursorColor = cursorColor
+
+    @discardableResult public func setCursorColor(_ value: Color) -> Self {
+        config.cursorColor = value
         return self
     }
-    
-    @discardableResult
-    public func setShapeType(_ shapeType: ShapeType) -> Self {
-        config.shapeType = shapeType
+
+    @discardableResult public func setShapeType(_ value: ShapeType) -> Self {
+        config.shapeType = value
         return self
     }
-    
-    @discardableResult
-    public func setOnCompletion(_ handler: ((String) -> Void)?) -> Self {
+
+    @discardableResult public func setOnCompletion(_ handler: ((String) -> Void)?) -> Self {
         config.onCompletion = handler
         return self
     }
-    
-    @discardableResult
-    public func setOnChange(_ handler: ((String) -> Void)?) -> Self {
-        self.onChange = handler
+
+    @discardableResult public func setOnChange(_ handler: ((String) -> Void)?) -> Self {
+        config.onChange = handler
         return self
     }
-    
+
     @MainActor public func build() -> OTPVerificationViewController {
-        config.onChange = self.onChange
         return OTPVerificationViewController(configuration: config)
     }
 }
-    
