@@ -31,7 +31,8 @@ public class OTPVerificationViewController: UIViewController {
             cursorColor: configuration.cursorColor,
             shapeType: configuration.shapeType,
             errorBorderColor: configuration.errorBorderColor,
-            onCompletion: configuration.onCompletion
+            onCompletion: configuration.onCompletion,
+            onChange: configuration.onChange
         )
         
         self.otpVerificationView = view
@@ -47,14 +48,13 @@ public class OTPVerificationViewController: UIViewController {
         
         hostingController = UIHostingController(rootView: otpVerificationView)
         guard let hostingController = hostingController else { return }
-        
         addChild(hostingController)
         view.addSubview(hostingController.view)
         hostingController.view.frame = view.bounds
         hostingController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         hostingController.didMove(toParent: self)
     }
-    
+
     public func setErrorState(_ isError: Bool) {
         otpVerificationView.setErrorState(isError)
         hostingController?.rootView = otpVerificationView
@@ -74,3 +74,4 @@ public class OTPVerificationViewController: UIViewController {
         hostingController?.rootView = otpVerificationView
     }
 }
+
