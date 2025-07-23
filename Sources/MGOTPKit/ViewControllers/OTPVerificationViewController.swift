@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  OTPVerificationViewController.swift
 //  MGOTPKit
 //
 //  Created by Mohamed Gamal on 10/11/2024.
@@ -7,11 +7,16 @@
 
 import SwiftUI
 import UIKit
-// UIKit wrapper for OTPVerificationView
 
+// UIKit wrapper for OTPVerificationView
 public class OTPVerificationViewController: UIViewController {
-    private let otpVerificationView: AnyOTPVerificationView
+    private var otpVerificationView: OTPVerificationView
+    private var hostingController: UIHostingController<OTPVerificationView>?
+    private let configuration: OTPConfiguration
+    
     public init(configuration: OTPConfiguration) {
+        self.configuration = configuration
+         
         let view = OTPVerificationView(
             digitCount: configuration.digitCount,
             spacing: configuration.spacing,
@@ -25,10 +30,11 @@ public class OTPVerificationViewController: UIViewController {
             animationDuration: configuration.animationDuration,
             cursorColor: configuration.cursorColor,
             shapeType: configuration.shapeType,
-            onCompletion: configuration.onCompletion,
-            onChange: configuration.onChange
+            errorBorderColor: configuration.errorBorderColor,
+            onCompletion: configuration.onCompletion
         )
-        self.otpVerificationView = AnyOTPVerificationView(view)
+        
+        self.otpVerificationView = view
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -39,12 +45,32 @@ public class OTPVerificationViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        let hostingController = UIHostingController(rootView: otpVerificationView .environment(\.layoutDirection, .leftToRight))
+        hostingController = UIHostingController(rootView: otpVerificationView)
+        guard let hostingController = hostingController else { return }
+        
         addChild(hostingController)
         view.addSubview(hostingController.view)
         hostingController.view.frame = view.bounds
         hostingController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         hostingController.didMove(toParent: self)
     }
+    
+    public func setErrorState(_ isError: Bool) {
+        otpVerificationView.setErrorState(isError)
+        hostingController?.rootView = otpVerificationView
+    }
+    
+    public func clearFields() {
+        otpVerificationView.clearFields()
+        hostingController?.rootView = otpVerificationView
+    }
+    
+    public func getCurrentOTP() -> String {
+        return otpVerificationView.getCurrentOTP()
+    }
+    
+    public func resetErrorState() {
+        otpVerificationView.setErrorState(false)
+        hostingController?.rootView = otpVerificationView
+    }
 }
-
