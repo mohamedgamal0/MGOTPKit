@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import SwiftUICore
+import SwiftUI
 
 public final class UIKitShapeAdapter: UIView {
     private let _path: @Sendable (CGRect) -> UIBezierPath
