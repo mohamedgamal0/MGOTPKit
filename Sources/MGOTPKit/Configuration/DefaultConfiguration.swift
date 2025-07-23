@@ -22,7 +22,9 @@ public struct DefaultConfiguration {
     public static let animationDuration: Double = 0.3
     public static let cursorColor: Color = .blue
     public static let shapeType: ShapeType = .roundedRectangle(cornerRadius: 8)
+    public static let errorBorderColor: Color = .red
 }
+
 /// Configuration for OTPVerificationViewController.
 public struct OTPConfiguration {
     public var digitCount: Int
@@ -37,8 +39,8 @@ public struct OTPConfiguration {
     public var animationDuration: Double
     public var cursorColor: Color
     public var shapeType: ShapeType
+    public var errorBorderColor: Color
     public var onCompletion: ((String) -> Void)?
-    public var onChange: ((String) -> Void)?
 
     public init(
         digitCount: Int = DefaultConfiguration.digitCount,
@@ -53,8 +55,8 @@ public struct OTPConfiguration {
         animationDuration: Double = DefaultConfiguration.animationDuration,
         cursorColor: Color = DefaultConfiguration.cursorColor,
         shapeType: ShapeType = DefaultConfiguration.shapeType,
-        onCompletion: ((String) -> Void)? = nil,
-        onChange: ((String) -> Void)? = nil
+        errorBorderColor: Color = DefaultConfiguration.errorBorderColor,
+        onCompletion: ((String) -> Void)? = nil
     ) {
         self.digitCount = digitCount
         self.spacing = spacing
@@ -68,7 +70,7 @@ public struct OTPConfiguration {
         self.animationDuration = animationDuration
         self.cursorColor = cursorColor
         self.shapeType = shapeType
+        self.errorBorderColor = errorBorderColor
         self.onCompletion = onCompletion
-        self.onChange = onChange
     }
 }
