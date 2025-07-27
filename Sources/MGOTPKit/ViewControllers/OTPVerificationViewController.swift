@@ -1,14 +1,10 @@
-//
-//  OTPVerificationViewController.swift
-//  MGOTPKit
-//
-//  Created by Mohamed Gamal on 10/11/2024.
-//
+// OTPVerificationViewController.swift
+// MGOTPKit
+// Created by Mohamed Gamal on 10/11/2024
 
 import SwiftUI
 import UIKit
 
-// UIKit wrapper for OTPVerificationView
 public class OTPVerificationViewController: UIViewController {
     private var otpVerificationView: OTPVerificationView
     private var hostingController: UIHostingController<OTPVerificationView>?
@@ -20,17 +16,17 @@ public class OTPVerificationViewController: UIViewController {
         let view = OTPVerificationView(
             digitCount: configuration.digitCount,
             spacing: configuration.spacing,
-            borderColor: configuration.borderColor,
+            borderColor: configuration.borderColor.toSwiftUIColor(),
             borderWidth: configuration.borderWidth,
-            textColor: configuration.textColor,
-            font: configuration.font,
-            backgroundColor: configuration.backgroundColor,
+            textColor: configuration.textColor.toSwiftUIColor(),
+            font: configuration.font.toSwiftUIFont(),
+            backgroundColor: configuration.backgroundColor.toSwiftUIColor(),
             cornerRadius: configuration.cornerRadius,
             fieldSize: configuration.fieldSize,
             animationDuration: configuration.animationDuration,
-            cursorColor: configuration.cursorColor,
+            cursorColor: configuration.cursorColor.toSwiftUIColor(),
             shapeType: configuration.shapeType,
-            errorBorderColor: configuration.errorBorderColor,
+            errorBorderColor: configuration.errorBorderColor.toSwiftUIColor(),
             onCompletion: configuration.onCompletion
         )
         
